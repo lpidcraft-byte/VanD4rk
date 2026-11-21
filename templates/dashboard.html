@@ -3,78 +3,231 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>VanD4rk Hosting — Panel</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#08080f;--card:#101018;--card2:#14141f;--border:#1e1e30;--accent:#7c3aed;--accent2:#22d3ee;--text:#e5e7eb;--mut:#8b8fa3;--ok:#22c55e;--err:#ef4444;--warn:#f59e0b}
+  :root{
+    --bg:#06060b; --card:#0e0e17; --card2:#12121e; --border:#1c1c2e;
+    --accent:#8b5cf6; --accent2:#06b6d4; --text:#f1f5f9; --mut:#94a3b8;
+    --ok:#10b981; --err:#ef4444; --warn:#f59e0b;
+  }
   *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
-  body{background:radial-gradient(1200px 800px at 10% 0%,#1a1030,transparent),radial-gradient(1000px 700px at 90% 100%,#0a1f2e,transparent),var(--bg);min-height:100vh;color:var(--text)}
-  .topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 28px;border-bottom:1px solid var(--border);background:rgba(10,10,15,.7);backdrop-filter:blur(12px);position:sticky;top:0;z-index:10}
-  .logo{font-weight:800;font-size:18px;background:linear-gradient(90deg,#a78bfa,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent;display:flex;align-items:center;gap:8px}
-  .userbox{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--mut)}
-  .userbox a{color:#a78bfa;text-decoration:none;font-weight:600}
-  .wrap{max-width:1280px;margin:0 auto;padding:28px}
-  .hero{perspective:1200px;margin-bottom:26px}
-  .heroCard{background:linear-gradient(135deg,#12121e,#0d0d16);border:1px solid var(--border);border-radius:20px;padding:22px 26px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 20px 60px rgba(124,58,237,.12);transform-style:preserve-3d;transition:.2s}
-  .hero:hover .heroCard{transform:rotateX(1.5deg)}
-  .heroCard h2{font-size:20px;font-weight:800;letter-spacing:-.4px}
-  .heroCard p{color:var(--mut);font-size:13px;margin-top:4px}
-  .stats{display:flex;gap:22px;font-size:12px;color:var(--mut)}
-  .stat b{display:block;color:var(--text);font-size:16px;font-weight:800}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px}
-  .botCard{background:linear-gradient(145deg,#12121e,#0d0d16);border:1px solid var(--border);border-radius:18px;padding:20px;perspective:1000px;transition:.25s;position:relative;overflow:hidden}
-  .botCard::before{content:"";position:absolute;inset:0;background:radial-gradient(400px 200px at var(--mx,50%) var(--my,0%),rgba(124,58,237,.15),transparent);opacity:0;transition:.2s;pointer-events:none}
-  .botCard:hover::before{opacity:1}
-  .botCard:hover{transform:translateY(-4px);border-color:#2c2c44;box-shadow:0 20px 50px rgba(0,0,0,.5)}
-  .botHead{display:flex;align-items:center;gap:14px;margin-bottom:16px}
-  .pp{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#22d3ee);display:grid;place-items:center;font-weight:800;font-size:20px;overflow:hidden;flex-shrink:0;box-shadow:0 6px 20px rgba(124,58,237,.35)}
-  .pp img{width:100%;height:100%;object-fit:cover}
-  .botName{font-weight:800;font-size:16px}
-  .botUser{font-size:12px;color:var(--mut)}
-  .meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;margin-bottom:14px}
-  .meta div{background:#0a0a12;padding:9px 11px;border-radius:10px;border:1px solid var(--border)}
-  .meta span{display:block;color:var(--mut);font-size:10px;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
-  .meta b{color:var(--text);font-weight:600;font-size:12px;word-break:break-all}
-  .badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700}
-  .badge.run{background:rgba(34,197,94,.12);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
-  .badge.stop{background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.3)}
-  .badge.pend{background:rgba(245,158,11,.12);color:#fbbf24;border:1px solid rgba(245,158,11,.3)}
-  .actions{display:flex;gap:8px;flex-wrap:wrap}
-  .btn{padding:8px 12px;border-radius:9px;border:1px solid var(--border);background:#0a0a12;color:var(--text);font-size:12px;font-weight:600;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:5px}
-  .btn:hover{background:#14141f;border-color:#2c2c44}
-  .btn.pri{background:linear-gradient(90deg,#7c3aed,#22d3ee);border:none;color:#fff}
-  .btn.pri:hover{filter:brightness(1.15)}
-  .btn.danger{color:#f87171;border-color:rgba(239,68,68,.3)}
-  .empty{text-align:center;padding:80px 20px;perspective:800px}
-  .emptyBox{background:linear-gradient(145deg,#12121e,#0d0d16);border:2px dashed #2c2c44;border-radius:24px;padding:60px 30px;max-width:480px;margin:0 auto;transition:.3s;transform-style:preserve-3d}
-  .emptyBox:hover{transform:rotateX(3deg) translateY(-4px);border-color:var(--accent)}
-  .emptyBox h3{font-size:20px;margin-bottom:8px;font-weight:800}
-  .emptyBox p{color:var(--mut);font-size:13px;margin-bottom:24px}
-  .uploadBtn{padding:16px 30px;border-radius:14px;background:linear-gradient(90deg,#7c3aed,#22d3ee);color:#fff;border:none;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 15px 40px rgba(124,58,237,.4);transition:.2s}
-  .uploadBtn:hover{transform:translateY(-2px) scale(1.03);filter:brightness(1.1)}
-  .modal{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;place-items:center;z-index:100;backdrop-filter:blur(6px);padding:20px}
-  .modal.on{display:grid}
-  .modalCard{background:linear-gradient(145deg,#12121e,#0d0d16);border:1px solid var(--border);border-radius:20px;padding:28px;max-width:520px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.7)}
-  .modalCard h3{margin-bottom:14px;font-weight:800}
-  .modalCard textarea{width:100%;height:260px;background:#08080f;color:#a5f3fc;border:1px solid var(--border);border-radius:12px;padding:12px;font-family:monospace;font-size:11px;resize:vertical}
-  .toast{position:fixed;bottom:24px;right:24px;background:#12121e;border:1px solid var(--border);padding:14px 20px;border-radius:12px;font-size:13px;z-index:200;box-shadow:0 20px 50px rgba(0,0,0,.6);transform:translateY(120%);transition:.3s}
-  .toast.on{transform:translateY(0)}
-  .toast.ok{border-color:rgba(34,197,94,.4)}
-  .toast.err{border-color:rgba(239,68,68,.4)}
-  .spinner{width:16px;height:16px;border:2px solid #fff3;border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}
-  @keyframes sp{to{transform:rotate(360deg)}}
-  input[type=file]{display:none}
+  body{
+    background:
+      radial-gradient(900px 700px at 10% 0%, rgba(139,92,246,.12), transparent 60%),
+      radial-gradient(800px 600px at 90% 100%, rgba(6,182,212,.1), transparent 60%),
+      #06060b;
+    min-height:100vh; color:var(--text); overflow-x:hidden;
+  }
+
+  /* TOPBAR */
+  .topbar{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:14px 28px; border-bottom:1px solid var(--border);
+    background:rgba(6,6,11,.7); backdrop-filter:blur(20px);
+    position:sticky; top:0; z-index:50;
+  }
+  .logo{
+    font-weight:900; font-size:17px; letter-spacing:-.5px;
+    background:linear-gradient(90deg,#c4b5fd,#67e8f9);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    display:flex; align-items:center; gap:10px;
+  }
+  .logoIcon{
+    width:36px;height:36px;border-radius:11px;
+    background:linear-gradient(135deg,#8b5cf6,#06b6d4);
+    display:grid; place-items:center;
+    box-shadow:0 8px 24px -8px rgba(139,92,246,.7);
+  }
+  .userbox{ display:flex; align-items:center; gap:14px; font-size:13px; color:var(--mut); }
+  .userbox b{ color:var(--text); font-weight:700; }
+  .userbox a{
+    color:#c4b5fd; text-decoration:none; font-weight:700;
+    padding:6px 12px; border-radius:8px; background:#12121e; border:1px solid var(--border);
+    transition:.2s;
+  }
+  .userbox a:hover{ background:#1c1c2e; }
+
+  .wrap{ max-width:1280px; margin:0 auto; padding:28px; }
+
+  /* HERO */
+  .hero{ perspective:1200px; margin-bottom:26px; }
+  .heroCard{
+    background:linear-gradient(135deg, rgba(22,22,36,.9), rgba(12,12,20,.95));
+    border:1px solid var(--border); border-radius:22px;
+    padding:24px 28px; display:flex; justify-content:space-between; align-items:center;
+    box-shadow:0 20px 60px -20px rgba(139,92,246,.3), 0 1px 0 rgba(255,255,255,.05) inset;
+    transform-style:preserve-3d; transition:.3s;
+  }
+  .hero:hover .heroCard{ transform:rotateX(1.5deg); }
+  .heroCard h2{ font-size:22px; font-weight:900; letter-spacing:-.6px; }
+  .heroCard p{ color:var(--mut); font-size:13px; margin-top:4px; }
+  .stats{ display:flex; gap:26px; }
+  .stat{ text-align:center; }
+  .stat b{
+    display:block; font-size:22px; font-weight:900;
+    background:linear-gradient(90deg,#c4b5fd,#67e8f9);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .stat span{ font-size:11px; color:var(--mut); text-transform:uppercase; letter-spacing:.5px; font-weight:600; }
+
+  /* BOT GRID */
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr)); gap:20px; }
+  .botCard{
+    background:linear-gradient(155deg, rgba(22,22,36,.9), rgba(12,12,20,.95));
+    border:1px solid var(--border); border-radius:20px;
+    padding:22px; position:relative; overflow:hidden;
+    perspective:1000px; transition:.3s cubic-bezier(.2,.8,.2,1);
+    box-shadow:0 1px 0 rgba(255,255,255,.04) inset;
+  }
+  .botCard::before{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(500px 250px at var(--mx,50%) var(--my,0%), rgba(139,92,246,.18), transparent 70%);
+    opacity:0; transition:.25s;
+  }
+  .botCard:hover::before{ opacity:1; }
+  .botCard:hover{
+    transform:translateY(-5px);
+    border-color:#2c2c44;
+    box-shadow:0 30px 70px -20px rgba(139,92,246,.4), 0 20px 40px rgba(0,0,0,.5);
+  }
+
+  .botHead{ display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+  .pp{
+    width:56px;height:56px;border-radius:50%; flex-shrink:0;
+    background:linear-gradient(135deg,#8b5cf6,#06b6d4);
+    display:grid; place-items:center;
+    font-weight:900; font-size:22px; overflow:hidden;
+    box-shadow:0 10px 28px -8px rgba(139,92,246,.6), 0 0 0 3px rgba(139,92,246,.1);
+  }
+  .pp img{ width:100%;height:100%;object-fit:cover; }
+  .botName{ font-weight:800; font-size:16px; letter-spacing:-.3px; }
+  .botUser{ font-size:12px; color:var(--mut); margin-top:2px; }
+
+  .meta{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
+  .meta div{
+    background:#08080f; padding:10px 12px; border-radius:12px;
+    border:1px solid var(--border);
+  }
+  .meta span{
+    display:block; color:var(--mut); font-size:10px;
+    text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px; font-weight:700;
+  }
+  .meta b{ color:var(--text); font-weight:600; font-size:12px; word-break:break-all; }
+
+  .badge{
+    display:inline-flex; align-items:center; gap:5px;
+    padding:5px 11px; border-radius:20px;
+    font-size:11px; font-weight:800; letter-spacing:.2px;
+  }
+  .badge.run{ background:rgba(16,185,129,.12); color:#34d399; border:1px solid rgba(16,185,129,.3); }
+  .badge.stop{ background:rgba(239,68,68,.12); color:#f87171; border:1px solid rgba(239,68,68,.3); }
+  .badge.pend{ background:rgba(245,158,11,.12); color:#fbbf24; border:1px solid rgba(245,158,11,.3); }
+
+  .actions{ display:flex; gap:8px; flex-wrap:wrap; }
+  .btn{
+    padding:9px 13px; border-radius:10px;
+    border:1px solid var(--border); background:#08080f; color:var(--text);
+    font-size:12px; font-weight:700; cursor:pointer;
+    transition:.2s; display:inline-flex; align-items:center; gap:5px;
+  }
+  .btn:hover{ background:#12121e; border-color:#2c2c44; transform:translateY(-1px); }
+  .btn.pri{
+    background:linear-gradient(135deg,#8b5cf6,#06b6d4); border:none; color:#fff;
+    box-shadow:0 8px 20px -8px rgba(139,92,246,.6);
+  }
+  .btn.pri:hover{ filter:brightness(1.12); }
+  .btn.danger{ color:#f87171; border-color:rgba(239,68,68,.3); }
+  .btn.danger:hover{ background:rgba(239,68,68,.08); }
+
+  /* EMPTY */
+  .empty{ padding:60px 20px; perspective:1000px; }
+  .emptyBox{
+    background:linear-gradient(155deg, rgba(22,22,36,.85), rgba(12,12,20,.95));
+    border:2px dashed #2c2c44; border-radius:28px;
+    padding:70px 30px; max-width:500px; margin:0 auto; text-align:center;
+    transition:.35s cubic-bezier(.2,.8,.2,1);
+    transform-style:preserve-3d;
+    box-shadow:0 30px 80px -30px rgba(139,92,246,.4);
+  }
+  .emptyBox:hover{
+    transform:rotateX(3deg) rotateY(-1deg) translateY(-6px);
+    border-color:var(--accent);
+    box-shadow:0 40px 100px -30px rgba(139,92,246,.6);
+  }
+  .emptyIcon{
+    width:80px;height:80px;border-radius:24px;margin:0 auto 22px;
+    background:linear-gradient(135deg,#8b5cf6,#06b6d4);
+    display:grid; place-items:center;
+    box-shadow:0 20px 50px -15px rgba(139,92,246,.7);
+    transform:rotate(-6deg);
+  }
+  .emptyBox h3{ font-size:22px; margin-bottom:8px; font-weight:900; letter-spacing:-.5px; }
+  .emptyBox p{ color:var(--mut); font-size:13px; margin-bottom:26px; line-height:1.6; }
+  .emptyBox code{ background:#08080f; padding:2px 8px; border-radius:6px; color:#c4b5fd; font-weight:700; font-size:12px; }
+
+  .uploadBtn{
+    padding:16px 34px; border-radius:14px;
+    background:linear-gradient(135deg,#8b5cf6,#06b6d4);
+    color:#fff; border:none; font-weight:800; font-size:14px;
+    cursor:pointer; box-shadow:0 15px 40px -12px rgba(139,92,246,.8);
+    transition:.25s;
+  }
+  .uploadBtn:hover{ transform:translateY(-3px) scale(1.03); filter:brightness(1.12); }
+
+  /* MODAL */
+  .modal{
+    position:fixed; inset:0; background:rgba(0,0,0,.85);
+    display:none; place-items:center; z-index:100;
+    backdrop-filter:blur(8px); padding:20px;
+  }
+  .modal.on{ display:grid; }
+  .modalCard{
+    background:linear-gradient(155deg,#12121e,#0c0c14);
+    border:1px solid var(--border); border-radius:22px;
+    padding:28px; max-width:560px; width:100%;
+    box-shadow:0 30px 100px rgba(0,0,0,.8);
+    animation:pop .3s cubic-bezier(.2,.8,.2,1);
+  }
+  @keyframes pop{ from{opacity:0; transform:scale(.95)} to{opacity:1; transform:scale(1)} }
+  .modalCard h3{ margin-bottom:16px; font-weight:900; letter-spacing:-.4px; }
+  .modalCard textarea{
+    width:100%; height:280px; background:#06060b; color:#67e8f9;
+    border:1px solid var(--border); border-radius:14px; padding:14px;
+    font-family:ui-monospace,monospace; font-size:11px; resize:vertical;
+    outline:none;
+  }
+  .modalCard textarea:focus{ border-color:var(--accent); }
+
+  /* TOAST */
+  .toast{
+    position:fixed; bottom:24px; right:24px;
+    background:#12121e; border:1px solid var(--border);
+    padding:14px 20px; border-radius:14px; font-size:13px; font-weight:600;
+    z-index:200; box-shadow:0 20px 60px rgba(0,0,0,.7);
+    transform:translateY(120%); transition:.35s cubic-bezier(.2,.8,.2,1);
+  }
+  .toast.on{ transform:translateY(0); }
+  .toast.ok{ border-color:rgba(16,185,129,.5); color:#34d399; }
+  .toast.err{ border-color:rgba(239,68,68,.5); color:#f87171; }
+
+  input[type=file]{ display:none; }
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <div class="logo">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7l9 5 9-5-9-5z" fill="#a78bfa"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5" stroke="#22d3ee" stroke-width="1.5" stroke-linejoin="round"/></svg>
+    <div class="logoIcon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L3 7l9 5 9-5-9-5z" fill="#fff"/>
+        <path d="M3 12l9 5 9-5M3 17l9 5 9-5" stroke="#fff" stroke-width="1.6" stroke-linejoin="round" opacity=".7"/>
+      </svg>
+    </div>
     VanD4rk Hosting
   </div>
   <div class="userbox">
     <span id="sysInfo">…</span>
-    <span>👤 {{ user.username if user else '' }}</span>
+    <span>👤 <b>{{ user.username if user else '' }}</b></span>
     <a href="/logout">Çıkış</a>
   </div>
 </div>
@@ -87,13 +240,12 @@
         <p>Telegram botlarını yükle, çalıştır, güncelle.</p>
       </div>
       <div class="stats">
-        <div class="stat"><b id="stTotal">0</b>Toplam</div>
-        <div class="stat"><b id="stRun">0</b>Çalışan</div>
-        <div class="stat"><b id="stPend">0</b>Onayda</div>
+        <div class="stat"><b id="stTotal">0</b><span>Toplam</span></div>
+        <div class="stat"><b id="stRun">0</b><span>Çalışan</span></div>
+        <div class="stat"><b id="stPend">0</b><span>Onayda</span></div>
       </div>
     </div>
   </div>
-
   <div id="botsArea"></div>
 </div>
 
@@ -102,145 +254,155 @@
 
 <div class="modal" id="consoleModal">
   <div class="modalCard">
-    <h3>Konsol</h3>
+    <h3>Konsol Çıktısı</h3>
     <textarea id="consoleBox" readonly></textarea>
-    <div style="margin-top:12px;text-align:right"><button class="btn" onclick="document.getElementById('consoleModal').classList.remove('on')">Kapat</button></div>
+    <div style="margin-top:16px;text-align:right">
+      <button class="btn" onclick="document.getElementById('consoleModal').classList.remove('on')">Kapat</button>
+    </div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const EMOJI = {
-  run:'<svg width="12" height="12" viewBox="0 0 24 24" fill="#4ade80"><circle cx="12" cy="12" r="6"/></svg>',
-  stop:'<svg width="12" height="12" viewBox="0 0 24 24" fill="#f87171"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
-  pend:'<svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24"><circle cx="12" cy="12" r="9"/></svg>',
-};
-let BOTS = [];
-let currentBid = null, currentMode = null;
+  let BOTS = [], currentBid = null, currentMode = null;
 
-async function loadBots(){
-  const r = await fetch('/api/bots'); const d = await r.json();
-  BOTS = d.bots || []; render();
-  document.getElementById('stTotal').textContent = BOTS.length;
-  document.getElementById('stRun').textContent = BOTS.filter(b=>b.status==='running').length;
-  document.getElementById('stPend').textContent = BOTS.filter(b=>!b.approved).length;
-}
+  const STATUS_BADGE = {
+    run: `<span class="badge run">● Çalışıyor</span>`,
+    stop:`<span class="badge stop">● Durdu</span>`,
+    pend:`<span class="badge pend">◐ Onay Bekliyor</span>`
+  };
 
-function render(){
-  const area = document.getElementById('botsArea');
-  if(!BOTS.length){
-    area.innerHTML = `<div class="empty"><div class="emptyBox">
-      <h3>Henüz botun yok</h3>
-      <p>Bir <code>.py</code> dosyası yükle. İçinde BotFather token'ı olmalı.</p>
-      <button class="uploadBtn" onclick="pickUpload()">📤 Dosya Yükle</button>
-    </div></div>`;
-    return;
+  function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+  async function loadBots(){
+    try{
+      const r = await fetch('/api/bots'); const d = await r.json();
+      BOTS = d.bots || []; render();
+      document.getElementById('stTotal').textContent = BOTS.length;
+      document.getElementById('stRun').textContent = BOTS.filter(b=>b.status==='running').length;
+      document.getElementById('stPend').textContent = BOTS.filter(b=>!b.approved).length;
+    }catch(e){ console.error(e); }
   }
-  area.innerHTML = `<div class="grid">${BOTS.map(b=>botCard(b)).join('')}</div>`;
-  area.querySelectorAll('.botCard').forEach(c=>{
-    c.addEventListener('mousemove', e=>{
-      const r = c.getBoundingClientRect();
-      c.style.setProperty('--mx', (e.clientX-r.left)+'px');
-      c.style.setProperty('--my', (e.clientY-r.top)+'px');
-    });
-  });
-}
 
-function botCard(b){
-  const st = b.approved ? (b.status==='running'?['run','Çalışıyor']:['stop','Durdu']) : ['pend','Onay Bekliyor'];
-  const initial = (b.name||'B')[0].toUpperCase();
-  const pp = b.avatar ? `<img src="${b.avatar}" onerror="this.remove()">` : initial;
-  return `<div class="botCard">
-    <div class="botHead">
-      <div class="pp">${pp}</div>
-      <div style="flex:1">
-        <div class="botName">${esc(b.name)}</div>
-        <div class="botUser">${esc(b.username)}</div>
-      </div>
-      <span class="badge ${st[0]}">${EMOJI[st[0]]} ${st[1]}</span>
-    </div>
-    <div class="meta">
-      <div><span>Bot Adı</span><b>${esc(b.name)}</b></div>
-      <div><span>Bot ID</span><b>${b.tg_id}</b></div>
-      <div><span>Kullanıcı Adı</span><b>${esc(b.username)}</b></div>
-      <div><span>Durum</span><b>${b.approved?'Onaylı':'Onay Bekliyor'}</b></div>
-    </div>
-    <div class="actions">
-      <button class="btn pri" onclick="restartBot('${b.id}')">▶️ Yeniden Başlat</button>
-      <button class="btn" onclick="stopBot('${b.id}')">⏸️ Durdur</button>
-      <button class="btn" onclick="pickUpdate('${b.id}')">📄 Güncelle</button>
-      <button class="btn" onclick="showConsole('${b.id}')">🖥️ Konsol</button>
-      <button class="btn danger" onclick="delBot('${b.id}')">🗑️ Sil</button>
-    </div>
-  </div>`;
-}
-
-function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
-
-function pickUpload(){ currentMode='upload'; currentBid=null; document.getElementById('fileUp').click(); }
-function pickUpdate(bid){ currentMode='update'; currentBid=bid; document.getElementById('fileUpd').click(); }
-
-document.getElementById('fileUp').addEventListener('change', async e=>{
-  const f = e.target.files[0]; if(!f) return;
-  const fd = new FormData(); fd.append('file', f);
-  toast('Yükleniyor...', '');
-  const r = await fetch('/api/upload', {method:'POST', body:fd});
-  const d = await r.json();
-  if(d.ok){ toast('✅ Yüklendi, admin onayı bekleniyor','ok'); loadBots(); }
-  else toast('❌ '+(d.error||'Hata'), 'err');
-  e.target.value='';
-});
-document.getElementById('fileUpd').addEventListener('change', async e=>{
-  const f = e.target.files[0]; if(!f || !currentBid) return;
-  const fd = new FormData(); fd.append('file', f);
-  const r = await fetch(`/api/bot/${currentBid}/update`, {method:'POST', body:fd});
-  const d = await r.json();
-  if(d.ok){ toast('♻️ Güncelleme onaya gönderildi','ok'); loadBots(); }
-  else toast('❌ '+(d.error||'Hata'),'err');
-  e.target.value='';
-});
-
-async function restartBot(bid){
-  const r = await fetch(`/api/bot/${bid}/restart`, {method:'POST'});
-  const d = await r.json();
-  if(d.ok) toast('▶️ Başlatıldı: '+d.msg,'ok'); else toast('❌ '+(d.error||d.msg),'err');
-  loadBots();
-}
-async function stopBot(bid){
-  await fetch(`/api/bot/${bid}/stop`, {method:'POST'});
-  toast('⏸️ Durduruldu','ok'); loadBots();
-}
-async function delBot(bid){
-  if(!confirm('Bu botu silmek istediğine emin misin?')) return;
-  await fetch(`/api/bot/${bid}/delete`, {method:'POST'});
-  toast('🗑️ Silindi','ok'); loadBots();
-}
-async function showConsole(bid){
-  const r = await fetch(`/api/bot/${bid}`); const d = await r.json();
-  document.getElementById('consoleBox').value = d.console || '(boş)';
-  document.getElementById('consoleModal').classList.add('on');
-}
-
-function toast(msg, type){
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'toast on ' + (type||'');
-  clearTimeout(t._t); t._t = setTimeout(()=>t.classList.remove('on'), 3000);
-}
-
-async function loadSystem(){
-  try{
-    const r = await fetch('/api/system'); const d = await r.json();
-    if(d.ok){
-      const ru = (d.ram_used/1048576).toFixed(0), rt = (d.ram_total/1048576).toFixed(0);
-      document.getElementById('sysInfo').textContent = `RAM ${ru}/${rt} MB · CPU ${d.cpu.toFixed(0)}%`;
+  function render(){
+    const area = document.getElementById('botsArea');
+    if(!BOTS.length){
+      area.innerHTML = `<div class="empty"><div class="emptyBox">
+        <div class="emptyIcon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L3 7l9 5 9-5-9-5z" fill="#fff"/>
+            <path d="M3 12l9 5 9-5M3 17l9 5 9-5" stroke="#fff" stroke-width="1.6" stroke-linejoin="round" opacity=".8"/>
+          </svg>
+        </div>
+        <h3>Henüz botun yok</h3>
+        <p>Bir <code>.py</code> dosyası yükle. İçinde BotFather token'ı olmalı.</p>
+        <button class="uploadBtn" onclick="pickUpload()">📤 Dosya Yükle</button>
+      </div></div>`;
+      return;
     }
-  }catch(e){}
-}
+    area.innerHTML = `<div class="grid">${BOTS.map(botCard).join('')}</div>`;
+    area.querySelectorAll('.botCard').forEach(c=>{
+      c.addEventListener('mousemove', e=>{
+        const r = c.getBoundingClientRect();
+        c.style.setProperty('--mx', (e.clientX-r.left)+'px');
+        c.style.setProperty('--my', (e.clientY-r.top)+'px');
+      });
+    });
+  }
 
-loadBots(); loadSystem();
-setInterval(loadSystem, 8000);
-setInterval(loadBots, 12000);
+  function botCard(b){
+    const statusKey = b.approved ? (b.status==='running'?'run':'stop') : 'pend';
+    const initial = (b.name||'B')[0].toUpperCase();
+    const pp = b.avatar ? `<img src="${b.avatar}" onerror="this.remove()">` : initial;
+    return `<div class="botCard">
+      <div class="botHead">
+        <div class="pp">${pp}</div>
+        <div style="flex:1;min-width:0">
+          <div class="botName">${esc(b.name)}</div>
+          <div class="botUser">${esc(b.username)}</div>
+        </div>
+        ${STATUS_BADGE[statusKey]}
+      </div>
+      <div class="meta">
+        <div><span>Bot Adı</span><b>${esc(b.name)}</b></div>
+        <div><span>Bot ID</span><b>${b.tg_id}</b></div>
+        <div><span>Kullanıcı Adı</span><b>${esc(b.username)}</b></div>
+        <div><span>Durum</span><b>${b.approved?'Onaylı':'Onay Bekliyor'}</b></div>
+      </div>
+      <div class="actions">
+        <button class="btn pri" onclick="restartBot('${b.id}')">▶ Yeniden Başlat</button>
+        <button class="btn" onclick="stopBot('${b.id}')">⏸ Durdur</button>
+        <button class="btn" onclick="pickUpdate('${b.id}')">📄 Güncelle</button>
+        <button class="btn" onclick="showConsole('${b.id}')">🖥 Konsol</button>
+        <button class="btn danger" onclick="delBot('${b.id}')">🗑 Sil</button>
+      </div>
+    </div>`;
+  }
+
+  function pickUpload(){ currentMode='upload'; currentBid=null; document.getElementById('fileUp').click(); }
+  function pickUpdate(bid){ currentMode='update'; currentBid=bid; document.getElementById('fileUpd').click(); }
+
+  document.getElementById('fileUp').addEventListener('change', async e=>{
+    const f = e.target.files[0]; if(!f) return;
+    const fd = new FormData(); fd.append('file', f);
+    toast('Yükleniyor...', '');
+    const r = await fetch('/api/upload', {method:'POST', body:fd});
+    const d = await r.json();
+    if(d.ok){ toast('✅ Admin onayına gönderildi','ok'); loadBots(); }
+    else toast('❌ '+(d.error||'Hata'), 'err');
+    e.target.value='';
+  });
+  document.getElementById('fileUpd').addEventListener('change', async e=>{
+    const f = e.target.files[0]; if(!f || !currentBid) return;
+    const fd = new FormData(); fd.append('file', f);
+    const r = await fetch(`/api/bot/${currentBid}/update`, {method:'POST', body:fd});
+    const d = await r.json();
+    if(d.ok){ toast('♻️ Güncelleme onaya gönderildi','ok'); loadBots(); }
+    else toast('❌ '+(d.error||'Hata'),'err');
+    e.target.value='';
+  });
+
+  async function restartBot(bid){
+    const r = await fetch(`/api/bot/${bid}/restart`, {method:'POST'});
+    const d = await r.json();
+    if(d.ok) toast('▶ Başlatıldı: '+d.msg,'ok'); else toast('❌ '+(d.error||d.msg),'err');
+    loadBots();
+  }
+  async function stopBot(bid){
+    await fetch(`/api/bot/${bid}/stop`, {method:'POST'});
+    toast('⏸ Durduruldu','ok'); loadBots();
+  }
+  async function delBot(bid){
+    if(!confirm('Bu botu silmek istediğine emin misin?')) return;
+    await fetch(`/api/bot/${bid}/delete`, {method:'POST'});
+    toast('🗑 Silindi','ok'); loadBots();
+  }
+  async function showConsole(bid){
+    const r = await fetch(`/api/bot/${bid}`); const d = await r.json();
+    document.getElementById('consoleBox').value = d.console || '(boş)';
+    document.getElementById('consoleModal').classList.add('on');
+  }
+
+  function toast(msg, type){
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.className = 'toast on ' + (type||'');
+    clearTimeout(t._t); t._t = setTimeout(()=>t.classList.remove('on'), 3000);
+  }
+
+  async function loadSystem(){
+    try{
+      const r = await fetch('/api/system'); const d = await r.json();
+      if(d.ok){
+        const ru=(d.ram_used/1048576).toFixed(0), rt=(d.ram_total/1048576).toFixed(0);
+        document.getElementById('sysInfo').textContent = `RAM ${ru}/${rt} MB · CPU ${d.cpu.toFixed(0)}%`;
+      }
+    }catch(e){}
+  }
+
+  loadBots(); loadSystem();
+  setInterval(loadSystem, 8000);
+  setInterval(loadBots, 12000);
 </script>
 </body>
 </html>
