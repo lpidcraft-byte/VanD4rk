@@ -3,72 +3,233 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>VanD4rk Hosting — Giriş</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#0a0a12;--card:#11111c;--border:#1e1e30;--accent:#7c3aed;--accent2:#22d3ee;--text:#e5e7eb;--mut:#8b8fa3}
+  :root{
+    --bg:#06060b; --card:#0e0e17; --border:#1c1c2e;
+    --accent:#8b5cf6; --accent2:#06b6d4; --text:#f1f5f9; --mut:#94a3b8;
+    --glow:rgba(139,92,246,.35);
+  }
   *{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
-  body{background:radial-gradient(1200px 800px at 20% 10%,#1a1030,transparent),radial-gradient(1000px 700px at 80% 90%,#0a1f2e,transparent),var(--bg);min-height:100vh;display:grid;place-items:center;color:var(--text);overflow:hidden}
-  .scene{perspective:1200px;width:100%;max-width:440px;padding:20px}
-  .card{background:linear-gradient(145deg,#12121e,#0d0d16);border:1px solid var(--border);border-radius:22px;padding:38px 30px;box-shadow:0 30px 80px rgba(124,58,237,.15),0 10px 30px rgba(0,0,0,.5);transform-style:preserve-3d;transition:transform .15s ease}
-  .scene:hover .card{transform:rotateX(2deg) rotateY(-2deg)}
-  h1{font-size:26px;font-weight:800;letter-spacing:-.5px;background:linear-gradient(90deg,#a78bfa,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px}
-  .sub{color:var(--mut);font-size:13px;margin-bottom:26px}
-  label{display:block;font-size:12px;color:var(--mut);margin-bottom:6px;font-weight:600}
-  input{width:100%;padding:13px 14px;background:#0a0a12;border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;outline:none;transition:.2s}
-  input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,58,237,.2)}
-  .field{margin-bottom:16px}
-  button{width:100%;padding:13px;border:none;border-radius:12px;background:linear-gradient(90deg,#7c3aed,#22d3ee);color:#fff;font-weight:800;font-size:14px;cursor:pointer;transition:.2s;box-shadow:0 10px 30px rgba(124,58,237,.35)}
-  button:hover{filter:brightness(1.15);transform:translateY(-1px)}
-  .switch{text-align:center;margin-top:18px;font-size:13px;color:var(--mut)}
-  .switch a{color:#a78bfa;text-decoration:none;font-weight:600}
-  .err{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.35);color:#fca5a5;padding:10px;border-radius:10px;font-size:12px;margin-bottom:12px;display:none}
-  .tabs{display:flex;gap:8px;margin-bottom:22px;background:#0a0a12;padding:6px;border-radius:14px;border:1px solid var(--border)}
-  .tabs button{background:transparent;box-shadow:none;padding:10px;border-radius:10px;color:var(--mut);font-weight:700;font-size:13px}
-  .tabs button.active{background:linear-gradient(90deg,#7c3aed,#22d3ee);color:#fff}
+  body{
+    background:
+      radial-gradient(800px 600px at 15% 10%, rgba(139,92,246,.18), transparent 60%),
+      radial-gradient(900px 700px at 85% 90%, rgba(6,182,212,.15), transparent 60%),
+      #06060b;
+    min-height:100vh; display:grid; place-items:center;
+    color:var(--text); overflow:hidden; perspective:1400px;
+  }
+  /* Arka plan grid */
+  body::before{
+    content:""; position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(139,92,246,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139,92,246,.06) 1px, transparent 1px);
+    background-size:52px 52px;
+    mask-image:radial-gradient(circle at center, black 30%, transparent 80%);
+    animation:gridMove 25s linear infinite;
+  }
+  @keyframes gridMove{ to{ background-position: 52px 52px; } }
+
+  .scene{ position:relative; z-index:2; width:100%; max-width:430px; padding:22px; perspective:1200px; }
+
+  .card{
+    background:linear-gradient(155deg, rgba(22,22,36,.85), rgba(12,12,20,.95));
+    border:1px solid var(--border);
+    border-radius:26px;
+    padding:42px 34px 34px;
+    backdrop-filter: blur(20px);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.06) inset,
+      0 40px 100px -20px var(--glow),
+      0 20px 60px rgba(0,0,0,.7);
+    transform-style:preserve-3d;
+    transition:transform .3s cubic-bezier(.2,.8,.2,1);
+    animation:floatIn .8s cubic-bezier(.2,.8,.2,1);
+  }
+  @keyframes floatIn{ from{opacity:0; transform:translateY(30px) rotateX(-8deg) scale(.96)} to{opacity:1; transform:none} }
+  .scene:hover .card{ transform: rotateX(2.5deg) rotateY(-2.5deg); }
+
+  /* Logo */
+  .brand{ display:flex; align-items:center; gap:12px; margin-bottom:28px; }
+  .brandIcon{
+    width:46px;height:46px; border-radius:14px;
+    background:linear-gradient(135deg,#8b5cf6,#06b6d4);
+    display:grid; place-items:center;
+    box-shadow:0 12px 32px -8px rgba(139,92,246,.6);
+    transform:rotate(-8deg);
+  }
+  .brandIcon svg{ transform:rotate(8deg); }
+  .brandText h1{
+    font-size:20px;font-weight:900;letter-spacing:-.5px;
+    background:linear-gradient(90deg,#c4b5fd,#67e8f9);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .brandText p{ font-size:11px; color:var(--mut); font-weight:500; letter-spacing:.3px; }
+
+  /* Sekmeler */
+  .tabs{
+    display:flex; gap:6px; margin-bottom:24px;
+    background:#08080f; padding:6px; border-radius:16px;
+    border:1px solid var(--border);
+  }
+  .tabs button{
+    flex:1; background:transparent; border:none; padding:11px;
+    border-radius:11px; color:var(--mut); font-weight:700;
+    font-size:13px; cursor:pointer; transition:.25s;
+  }
+  .tabs button.active{
+    background:linear-gradient(135deg,#8b5cf6,#06b6d4); color:#fff;
+    box-shadow:0 8px 24px -6px rgba(139,92,246,.6);
+  }
+
+  /* Inputlar */
+  .field{ margin-bottom:16px; }
+  .field label{
+    display:block; font-size:11px; color:var(--mut);
+    margin-bottom:8px; font-weight:700;
+    text-transform:uppercase; letter-spacing:.6px;
+  }
+  .field input{
+    width:100%; padding:14px 16px;
+    background:#08080f; border:1px solid var(--border);
+    border-radius:14px; color:var(--text); font-size:14px; font-weight:500;
+    outline:none; transition:.25s;
+  }
+  .field input:focus{
+    border-color:var(--accent);
+    background:#0b0b14;
+    box-shadow:0 0 0 4px rgba(139,92,246,.15), 0 8px 24px -8px rgba(139,92,246,.4);
+  }
+  .field input::placeholder{ color:#475569; }
+
+  .submitBtn{
+    width:100%; padding:15px; margin-top:8px;
+    border:none; border-radius:14px;
+    background:linear-gradient(135deg,#8b5cf6,#06b6d4);
+    color:#fff; font-weight:800; font-size:14px;
+    cursor:pointer; transition:.25s;
+    box-shadow:0 12px 32px -10px rgba(139,92,246,.7);
+    position:relative; overflow:hidden;
+  }
+  .submitBtn:hover{ filter:brightness(1.12); transform:translateY(-2px); }
+  .submitBtn:active{ transform:translateY(0); }
+  .submitBtn::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);
+    transform:translateX(-100%); transition:.6s;
+  }
+  .submitBtn:hover::after{ transform:translateX(100%); }
+
+  .err{
+    background:rgba(239,68,68,.1); border:1px solid rgba(239,68,68,.35);
+    color:#fca5a5; padding:12px; border-radius:12px;
+    font-size:12px; margin-bottom:14px; display:none; font-weight:500;
+  }
+  .err.show{ display:block; animation:shake .35s; }
+  @keyframes shake{ 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+
+  .footNote{ text-align:center; font-size:11px; color:#475569; margin-top:22px; }
 </style>
 </head>
 <body>
 <div class="scene">
   <div class="card">
-    <h1>VanD4rk Hosting</h1>
-    <p class="sub">Telegram bot hosting platformu · 3D arayüz</p>
-    <div class="tabs">
-      <button id="tabLogin" class="active" onclick="switchTab('login')">Giriş</button>
-      <button id="tabReg" onclick="switchTab('reg')">Kayıt</button>
+    <div class="brand">
+      <div class="brandIcon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L3 7l9 5 9-5-9-5z" fill="#fff"/>
+          <path d="M3 12l9 5 9-5M3 17l9 5 9-5" stroke="#fff" stroke-width="1.6" stroke-linejoin="round" opacity=".7"/>
+        </svg>
+      </div>
+      <div class="brandText">
+        <h1>VanD4rk Hosting</h1>
+        <p>TELEGRAM BOT PLATFORM</p>
+      </div>
     </div>
+
+    <div class="tabs">
+      <button id="tabLogin" class="active" type="button">Giriş</button>
+      <button id="tabReg" type="button">Kayıt</button>
+    </div>
+
     <div class="err" id="err"></div>
 
-    <div id="loginForm">
-      <div class="field"><label>Kullanıcı Adı</label><input id="lu" placeholder="kullanici_adi"></div>
-      <div class="field"><label>Şifre</label><input id="lp" type="password" placeholder="••••••••"></div>
-      <button onclick="doLogin()">Giriş Yap →</button>
-    </div>
+    <form id="loginForm" onsubmit="event.preventDefault(); doLogin();">
+      <div class="field">
+        <label>Kullanıcı Adı</label>
+        <input id="lu" autocomplete="username" placeholder="kullanici_adi">
+      </div>
+      <div class="field">
+        <label>Şifre</label>
+        <input id="lp" type="password" autocomplete="current-password" placeholder="••••••••">
+      </div>
+      <button class="submitBtn" type="submit">Giriş Yap →</button>
+    </form>
 
-    <div id="regForm" style="display:none">
-      <div class="field"><label>Kullanıcı Adı</label><input id="ru" placeholder="kullanici_adi"></div>
-      <div class="field"><label>Şifre</label><input id="rp" type="password" placeholder="En az 6 karakter"></div>
-      <button onclick="doReg()">Kayıt Ol →</button>
-    </div>
+    <form id="regForm" style="display:none" onsubmit="event.preventDefault(); doReg();">
+      <div class="field">
+        <label>Kullanıcı Adı</label>
+        <input id="ru" autocomplete="username" placeholder="kullanici_adi">
+      </div>
+      <div class="field">
+        <label>Şifre</label>
+        <input id="rp" type="password" autocomplete="new-password" placeholder="En az 6 karakter">
+      </div>
+      <button class="submitBtn" type="submit">Kayıt Ol →</button>
+    </form>
+
+    <p class="footNote">© VanD4rk Hosting · 3D Inter UI</p>
   </div>
 </div>
 
 <script>
-function switchTab(t){
-  document.getElementById('tabLogin').classList.toggle('active', t==='login');
-  document.getElementById('tabReg').classList.toggle('active', t==='reg');
-  document.getElementById('loginForm').style.display = t==='login'?'':'none';
-  document.getElementById('regForm').style.display = t==='reg'?'':'none';
-  document.getElementById('err').style.display='none';
-}
-function showErr(m){const e=document.getElementById('err');e.textContent=m;e.style.display='block'}
-async function doLogin(){
-  const r = await fetch('/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:lu.value,password:lp.value})});
-  const d = await r.json(); if(d.ok) location.href=d.redirect; else showErr(d.error);
-}
-async function doReg(){
-  const r = await fetch('/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:ru.value,password:rp.value})});
-  const d = await r.json(); if(d.ok) location.href=d.redirect; else showErr(d.error);
-}
+  function switchTab(t){
+    document.getElementById('tabLogin').classList.toggle('active', t==='login');
+    document.getElementById('tabReg').classList.toggle('active', t==='reg');
+    document.getElementById('loginForm').style.display = t==='login' ? '' : 'none';
+    document.getElementById('regForm').style.display   = t==='reg'   ? '' : 'none';
+    hideErr();
+  }
+  document.getElementById('tabLogin').onclick = ()=>switchTab('login');
+  document.getElementById('tabReg').onclick   = ()=>switchTab('reg');
+
+  function showErr(m){
+    const e = document.getElementById('err');
+    e.textContent = m; e.classList.add('show');
+  }
+  function hideErr(){ document.getElementById('err').classList.remove('show'); }
+
+  async function doLogin(){
+    const u = document.getElementById('lu').value.trim();
+    const p = document.getElementById('lp').value;
+    if(!u || !p){ showErr('Kullanıcı adı ve şifre gerekli'); return; }
+    try{
+      const r = await fetch('/login', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({username:u, password:p})
+      });
+      const d = await r.json();
+      if(d.ok) location.href = d.redirect || '/dashboard';
+      else showErr(d.error || 'Giriş başarısız');
+    }catch(e){ showErr('Sunucuya bağlanılamadı'); }
+  }
+
+  async function doReg(){
+    const u = document.getElementById('ru').value.trim().toLowerCase();
+    const p = document.getElementById('rp').value;
+    if(!u || !p){ showErr('Kullanıcı adı ve şifre gerekli'); return; }
+    if(p.length < 6){ showErr('Şifre en az 6 karakter olmalı'); return; }
+    try{
+      const r = await fetch('/register', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({username:u, password:p})
+      });
+      const d = await r.json();
+      if(d.ok) location.href = d.redirect || '/dashboard';
+      else showErr(d.error || 'Kayıt başarısız');
+    }catch(e){ showErr('Sunucuya bağlanılamadı'); }
+  }
 </script>
 </body>
 </html>
